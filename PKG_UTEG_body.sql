@@ -780,9 +780,9 @@ and   skrattr_attend_ind='N') No_Faltas ,
  where tbraccd_pidm=shrmrks_pidm and tbraccd_term_code=shrmrks_term_code
  and   tbraccd_detail_code in (select tbbdetc_detail_code from tbbdetc where tbbdetc_dcat_code in ('FEE','TUI'))
  and   tbraccd_balance > 0 and trunc(tbraccd_effective_date) >= trunc(sysdate)) No_adeudos,
-shrgcom_weight Ponderacion, shrmrks_grde_code Calificacion, sfrrsts_start_date f_inicio, sfrrsts_end_date f_fin
+shrgcom_weight Ponderacion, shrmrks_grde_code Calificacion, shrgcom_name parcial, sfrrsts_start_date f_inicio, sfrrsts_end_date f_fin
 from shrmrks, spriden, shrgcom, sfrrsts, ssbsect
-where shrgcom_term_code=PERIODO and substr(shrgcom_name,1,1)=PARCIAL and shrgcom_crn=CRN
+where shrgcom_term_code=PERIODO and shrgcom_crn=CRN --substr(shrgcom_name,1,1)=PARCIAL 
 and   shrmrks_term_code=shrgcom_term_code and shrgcom_id=shrmrks_gcom_id
 and   spriden_pidm=shrmrks_pidm and spriden_change_ind is null
 and   ssbsect_term_code=shrgcom_term_code and ssbsect_crn=shrgcom_crn
