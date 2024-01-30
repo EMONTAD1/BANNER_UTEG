@@ -210,7 +210,7 @@ RETURN c_out_calif_par%ROWTYPE;
 
 FUNCTION F_INSERTA_CAL_EXT (matricula varchar2, term_code varchar2, crn varchar2, grade_code varchar2) return varchar2;
 
-FUNCTION F_REPORTE_CAL_FINALES (iden varchar2, periodo varchar2, parcial varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_fin;
+FUNCTION F_REPORTE_CAL_FINALES (iden varchar2, periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_fin;
 CURSOR c_out_calif_fin IS
 
 SELECT
