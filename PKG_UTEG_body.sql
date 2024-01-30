@@ -563,7 +563,7 @@ OPEN c_out_fechas_parcial FOR
 select shrgcom_name PARCIAL, shrgcom_description NOMBRE, to_char(sfrrsts_start_date,'dd/mm/yyyy')F_INICIO, 
 to_char(sfrrsts_end_date,'dd/mm/yyyy') F_FIN, shrgcom_weight PONDERACION, substr(shrgcom_name,1,1) NO_PARCIAL
 from shrgcom, sfrrsts
-where shrgcom_term_code=PERIODO and shrgcom_crn=CRN and shrgcom_name=PARCIAL
+where shrgcom_term_code=PERIODO and shrgcom_crn=CRN --and shrgcom_name=PARCIAL
 and   sfrrsts_term_code=shrgcom_term_code and substr(sfrrsts_rsts_code,1,1)=substr(shrgcom_name,1,1);
 
 RETURN(c_out_fechas_parcial);
@@ -782,7 +782,7 @@ and   skrattr_attend_ind='N') No_Faltas ,
  and   tbraccd_balance > 0 and trunc(tbraccd_effective_date) >= trunc(sysdate)) No_adeudos,
 shrgcom_weight Ponderacion, shrmrks_grde_code Calificacion, shrgcom_name parcial, sfrrsts_start_date f_inicio, sfrrsts_end_date f_fin
 from shrmrks, spriden, shrgcom, sfrrsts, ssbsect
-where shrgcom_term_code=PERIODO and shrgcom_crn=CRN --substr(shrgcom_name,1,1)=PARCIAL 
+where shrgcom_term_code=PERIODO and shrgcom_crn=CRN and substr(shrgcom_name,1,1)=PARCIAL 
 and   shrmrks_term_code=shrgcom_term_code and shrgcom_id=shrmrks_gcom_id
 and   spriden_pidm=shrmrks_pidm and spriden_change_ind is null
 and   ssbsect_term_code=shrgcom_term_code and ssbsect_crn=shrgcom_crn
