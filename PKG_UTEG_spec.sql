@@ -232,7 +232,7 @@ WHERE 1=1;
 TYPE cursor_calif_fin IS REF CURSOR
 RETURN c_out_calif_fin%ROWTYPE;
 
-
+FUNCTION F _PRUEBA_CAMBIO_GIT(parametro_1 varchar2, parametro2 varchar2);
 
 
 end pkg_UTEG;
