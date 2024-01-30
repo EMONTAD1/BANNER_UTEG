@@ -1241,7 +1241,7 @@ return(vl_return);
 END F_INSERTA_CAL_EXT;
 
 
-FUNCTION F_REPORTE_CAL_FINALES (iden varchar2, periodo varchar2, parcial varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_fin
+FUNCTION F_REPORTE_CAL_FINALES (iden varchar2, periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_fin
 
 AS c_out_calif_fin PKG_UTEG.cursor_calif_fin;
 
