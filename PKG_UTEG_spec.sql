@@ -252,6 +252,6 @@ WHERE 1=1;
 TYPE cursor_alumnos_crn IS REF CURSOR
 RETURN c_out_alumnos_crn%ROWTYPE;
 
-
+PROCEDURE PRUEBA_GITHUB;
 
 end pkg_UTEG;
