@@ -1,4 +1,4 @@
-CREATE OR REPLACE PACKAGE          pkg_UTEG is
+create or replace PACKAGE          pkg_UTEG is
 
 PROCEDURE  Genera_Bloque_periodo (PERIODO varchar2, PTRM_CODE varchar2, CAMPUS varchar2, PROGRAMA varchar2, GRUPOS number, 
             MAX_ENROLL number,GRADO varchar2, TURNO varchar2, PROULEX varchar2);
@@ -89,7 +89,8 @@ WHERE
 TYPE CURSOR_MATERIAS_DOCENTE IS REF CURSOR
 RETURN c_out_materias_docente%ROWTYPE;
 
-FUNCTION F_FECHAS_PARCIAL(PERIODO varchar2, CRN varchar2, PARCIAL varchar2)  RETURN PKG_UTEG.CURSOR_FECHAS_PARCIAL;
+
+FUNCTION F_FECHAS_PARCIAL(PERIODO varchar2, CRN varchar2) RETURN PKG_UTEG.CURSOR_FECHAS_PARCIAL;
 CURSOR c_out_fechas_parcial  IS
 SELECT
    'PARCIAL',
@@ -146,7 +147,7 @@ SELECT
 'No_adeudos',
 'Ponderacion',
 'Calificacion',
-'Parcial',
+'parcial',
 'F_inicio',
 'F_fin'
 FROM
@@ -158,6 +159,10 @@ RETURN c_out_alumnos_parcial%ROWTYPE;
 PROCEDURE  FECHAS_INASISTENCIA (PERIODO varchar2, CRN varchar2);
 
 PROCEDURE  ACTUALIZA_CALIF_PARCIAL (PERIODO varchar2, CRN varchar2, ID_ESTU varchar2, PARCIAL varchar2, ID_DOC varchar2, CALI varchar2, PROGRAMA varchar2);
+
+FUNCTION NUMERO_SESIONES(PERIODO varchar2, CRN varchar2) return number;
+
+PROCEDURE GENERA_CRN_EXT;
 
 FUNCTION F_FECHAS_INASISTENCIA(PERIODO varchar2, CRN varchar2) RETURN PKG_UTEG.cursor_fechas_inasistencia;
 CURSOR c_out_fechas_inasistencia IS 
@@ -210,12 +215,12 @@ RETURN c_out_calif_par%ROWTYPE;
 
 FUNCTION F_INSERTA_CAL_EXT (matricula varchar2, term_code varchar2, crn varchar2, grade_code varchar2) return varchar2;
 
-FUNCTION F_REPORTE_CAL_FINALES (iden varchar2, periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_fin;
+FUNCTION F_REPORTE_CAL_FINALES (iden varchar2, periodo varchar2, parcial varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_fin;
 CURSOR c_out_calif_fin IS
 
 SELECT
---'programa',
---'parcial',
+'programa',
+'grado',
 'clave_grupo',
 'turno',
 'matricula_prof',
@@ -233,5 +238,20 @@ WHERE 1=1;
 TYPE cursor_calif_fin IS REF CURSOR
 RETURN c_out_calif_fin%ROWTYPE;
 
+FUNCTION F_ALUMNOS_GRUPO  (periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_alumnos_crn;
+
+CURSOR c_out_alumnos_crn IS
+
+SELECT 
+'matricula',
+'nombre_alumno',
+'parcial',
+'grupo'
+FROM DUAL
+WHERE 1=1;
+TYPE cursor_alumnos_crn IS REF CURSOR
+RETURN c_out_alumnos_crn%ROWTYPE;
+
+FUNCTION F_PRUEBA(parametro1 varchar2)return varchar2;
+
 end pkg_UTEG;
-/
