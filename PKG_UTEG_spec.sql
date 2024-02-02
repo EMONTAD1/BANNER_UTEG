@@ -252,6 +252,5 @@ WHERE 1=1;
 TYPE cursor_alumnos_crn IS REF CURSOR
 RETURN c_out_alumnos_crn%ROWTYPE;
 
-FUNCTION F_PRUEBA(parametro1 varchar2)return varchar2;
-
+--últimos Cambios 
 end pkg_UTEG;
