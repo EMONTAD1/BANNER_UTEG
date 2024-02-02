@@ -1,4 +1,4 @@
-CREATE OR REPLACE PACKAGE BODY          pkg_UTEG
+create or replace PACKAGE BODY          pkg_UTEG
 is
 
 PROCEDURE  Genera_Bloque_periodo (PERIODO varchar2, PTRM_CODE varchar2, CAMPUS varchar2, PROGRAMA varchar2, GRUPOS number, 
@@ -175,19 +175,19 @@ begin
 
 /*
     BANINST1.sb_section.p_create(  
-    PERIODO,  		-- Clave de periodo en d�nde se crea el CRN
+    PERIODO,  		-- Clave de periodo en dónde se crea el CRN
     CRN,				-- Se obtiene de SOBTERM_CRN_ONEUP +1 buscando por SOBTERM_TERM_CODE
     PTRM_CODE,		-- Regla de negocio para poner la parte de periodo
     SUBJ_CODE  ,		-- Subject de la matera (SUBJ_CODE)
     CRSE_NUMB  ,		-- Course de la materia (CRSE_NUMB)
-    seccion,		-- Definir valor para la secci�n (puede ser la letra del Bloque)
+    seccion,		-- Definir valor para la sección (puede ser la letra del Bloque)
     'A',      		-- Valor por default 'A' Activo
-    SCHD_CODE,      		-- Tipo de hora Te�rico, Pr�ctico Tabla (STVSCHD)
+    SCHD_CODE,      		-- Tipo de hora Teórico, Práctico Tabla (STVSCHD)
     CAMPUS,    		-- Clave de Campus
     title       ,  	-- Nombre Materia (SCBCRSE_TITLE)
-    creditos    , 	-- Cr�ditos (SMRACAA_MAX_CRED_CRSE) 
+    creditos    , 	-- Créditos (SMRACAA_MAX_CRED_CRSE) 
     1       , 	-- Valor por default 1
-    GMOD_CODE             , 	-- Tipo de Calificaci�n (S=Standard, G=Base 100)
+    GMOD_CODE             , 	-- Tipo de Calificación (S=Standard, G=Base 100)
     nulo              , 	-- Valor por defaul null
     nulo               , 	-- Valor por defaul null
     nulo              , 	-- Valor por defaul null 
@@ -197,9 +197,9 @@ begin
     0             ,	-- Valor por default 0 (cero)
     0             ,	-- Valor por default 0 (cero) 
     0              ,	-- Valor por default 0 (cero) 
-    MAX_ENROLL               ,	-- Capacidad m�xima del grupo
+    MAX_ENROLL               ,	-- Capacidad máxima del grupo
     0                   ,	-- Valor por default 0 (cero) 
-    MAX_ENROLL            ,	-- Capacidad m�xima del grupo
+    MAX_ENROLL            ,	-- Capacidad máxima del grupo
     0         ,	-- Valor por default 0 (cero)
     0            ,	-- Valor por default 0 (cero)
     f_inicio      ,   -- Fecha Inicio (SOBPTRM_START_DATE) dependiendo de la parte de periodo (PTRM_CODE)
@@ -210,10 +210,10 @@ begin
     0          ,	-- Valor por default 0 (cero)
     0             ,	-- Valor por default 0 (cero)
     0             ,	-- Valor por default 0 (cero)
-    teo                 ,	-- Horas te�ricas (SCBCRSE_LEC_HR_LOW)
-    prac                 ,	-- Horas te�ricas (SCBCRSE_LAB_HR_LOW)
-    otr                 ,	-- Horas te�ricas (SCBCRSE_OTH_HR_LOW)
-    cont                ,	-- Horas te�ricas (SCBCRSE_CONT_HR_LOW)
+    teo                 ,	-- Horas teóricas (SCBCRSE_LEC_HR_LOW)
+    prac                 ,	-- Horas teóricas (SCBCRSE_LAB_HR_LOW)
+    otr                 ,	-- Horas teóricas (SCBCRSE_OTH_HR_LOW)
+    cont                ,	-- Horas teóricas (SCBCRSE_CONT_HR_LOW)
     nulo              ,	-- Valor por default null 
     nulo              ,	-- Valor por default null 
     nulo          ,	-- Valor por default null 
@@ -223,7 +223,7 @@ begin
     0          ,	-- Valor por default 0 (cero)
     'Y'            ,	-- Valor por default 'Y'
     'N'   ,	-- Valor por default 'N'
-    GSCH_NAME              ,	-- Regla para obtener la escala n�merica de Calificaci�n
+    GSCH_NAME              ,	-- Regla para obtener la escala númerica de Calificación
     nulo           ,	-- Valor por default null 
     nulo         ,	-- Valor por default null 
     INSM_CODE, ----p_insm_code,   -- Regla para obtener la modalidad del grupo materia. Tabla (GTVINSM)
@@ -236,7 +236,7 @@ begin
     0   ,	-- Valor por default 0 (cero)
     'INTERFAZ'            , -- Valor por default Usuario 'INTERFAZ'
     'AUTM'                ,	-- Valor por default Usuario 'AUTM'
-    nulo               ,	-- Regla de negocio para colocar el socio de integraci�n (MOODL) desde inicio del CRN o proceso posterior
+    nulo               ,	-- Regla de negocio para colocar el socio de integración (MOODL) desde inicio del CRN o proceso posterior
     'B'  ,	-- Valor por default 'B'
     nulo, 	    -- Valor por default null
     nulo,
@@ -246,7 +246,7 @@ begin
     'N',
     nulo,
     nulo);*/
-    -- Obtiene Escala de Calificaci�n
+    -- Obtiene Escala de Calificación
     select  CASE SYS.ANYDATA.getTypeName(gorsdav_value) 
                             WHEN 'SYS.VARCHAR2' THEN SYS.ANYDATA.accessVarchar2(gorsdav_value) 
                             WHEN 'SYS.NUMBER'   THEN TO_CHAR(SYS.ANYDATA.accessNumber(gorsdav_value))
@@ -257,7 +257,7 @@ begin
                 and  gorsdav_table_name='STVLEVL' and gorsdav_attr_name='ESCLA_CALI' 
                 and gorsdav_pk_parenttab='UTG'||chr(1)||sobcurr_levl_code;
                 
-    -- Obtiene Modo de Calificaci�n
+    -- Obtiene Modo de Calificación
     select  CASE SYS.ANYDATA.getTypeName(gorsdav_value) 
                             WHEN 'SYS.VARCHAR2' THEN SYS.ANYDATA.accessVarchar2(gorsdav_value) 
                             WHEN 'SYS.NUMBER'   THEN TO_CHAR(SYS.ANYDATA.accessNumber(gorsdav_value))
@@ -269,19 +269,19 @@ begin
                 and gorsdav_pk_parenttab='UTG'||chr(1)||sobcurr_levl_code;
 
     insert into ssbsect values(
-     PERIODO,  		-- Clave de periodo en d�nde se crea el CRN
+     PERIODO,  		-- Clave de periodo en dónde se crea el CRN
     CRN,				-- Se obtiene de SOBTERM_CRN_ONEUP +1 buscando por SOBTERM_TERM_CODE
     PTRM_CODE,		-- Regla de negocio para poner la parte de periodo
     SUBJ_CODE  ,		-- Subject de la matera (SUBJ_CODE)
     CRSE_NUMB  ,		-- Course de la materia (CRSE_NUMB)
-    SECCION,		-- Definir valor para la secci�n (puede ser la letra del Bloque)
+    SECCION,		-- Definir valor para la sección (puede ser la letra del Bloque)
     'A',      		-- Valor por default 'A' Activo
-    SCHD_CODE,      		-- Tipo de hora Te�rico, Pr�ctico Tabla (STVSCHD)
+    SCHD_CODE,      		-- Tipo de hora Teórico, Práctico Tabla (STVSCHD)
     CAMPUS,    		-- Clave de Campus
     title       ,  	-- Nombre Materia (SCBCRSE_TITLE)
-    creditos    , 	-- Cr�ditos (SMRACAA_MAX_CRED_CRSE) 
+    creditos    , 	-- Créditos (SMRACAA_MAX_CRED_CRSE) 
     1       , 	-- Valor por default 1
-    GMOD_CODE             , 	-- Tipo de Calificaci�n (S=Standard, G=Base 100)
+    GMOD_CODE             , 	-- Tipo de Calificación (S=Standard, G=Base 100)
     nulo              , 	-- Valor por defaul null
     nulo               , 	-- Valor por defaul null
     nulo              , 	-- Valor por defaul null 
@@ -291,9 +291,9 @@ begin
     0             ,	-- Valor por default 0 (cero)
     0             ,	-- Valor por default 0 (cero) 
     0              ,	-- Valor por default 0 (cero) 
-    MAX_ENROLL               ,	-- Capacidad m�xima del grupo
+    MAX_ENROLL               ,	-- Capacidad máxima del grupo
     0                   ,	-- Valor por default 0 (cero) 
-    MAX_ENROLL            ,	-- Capacidad m�xima del grupo
+    MAX_ENROLL            ,	-- Capacidad máxima del grupo
     0         ,	-- Valor por default 0 (cero)
     0            ,	-- Valor por default 0 (cero)
     f_inicio      ,   -- Fecha Inicio (SOBPTRM_START_DATE) dependiendo de la parte de periodo (PTRM_CODE)
@@ -305,10 +305,10 @@ begin
     0          ,	-- Valor por default 0 (cero)
     0             ,	-- Valor por default 0 (cero)
     0             ,	-- Valor por default 0 (cero)
-    teo                 ,	-- Horas te�ricas (SCBCRSE_LEC_HR_LOW)
-    prac                 ,	-- Horas te�ricas (SCBCRSE_LAB_HR_LOW)
-    otr                 ,	-- Horas te�ricas (SCBCRSE_OTH_HR_LOW)
-    cont                ,	-- Horas te�ricas (SCBCRSE_CONT_HR_LOW)
+    teo                 ,	-- Horas teóricas (SCBCRSE_LEC_HR_LOW)
+    prac                 ,	-- Horas teóricas (SCBCRSE_LAB_HR_LOW)
+    otr                 ,	-- Horas teóricas (SCBCRSE_OTH_HR_LOW)
+    cont                ,	-- Horas teóricas (SCBCRSE_CONT_HR_LOW)
     nulo              ,	-- Valor por default null 
     nulo              ,	-- Valor por default null 
     nulo          ,	-- Valor por default null 
@@ -318,7 +318,7 @@ begin
     0          ,	-- Valor por default 0 (cero)
     'Y'            ,	-- Valor por default 'Y'
     'N'   ,	-- Valor por default 'N'
-    GSCH_NAME              ,	-- Regla para obtener la escala n�merica de Calificaci�n
+    GSCH_NAME              ,	-- Regla para obtener la escala númerica de Calificación
     nulo           ,	-- Valor por default null 
     nulo         ,	-- Valor por default null 
     INSM_CODE, ----p_insm_code,   -- Regla para obtener la modalidad del grupo materia. Tabla (GTVINSM)
@@ -331,7 +331,7 @@ begin
     0   ,	-- Valor por default 0 (cero)
     'INTERFAZ'            , -- Valor por default Usuario 'INTERFAZ'
     'AUTM'                ,	-- Valor por default Usuario 'AUTM'
-    nulo               ,	-- Regla de negocio para colocar el socio de integraci�n (MOODL) desde inicio del CRN o proceso posterior
+    nulo               ,	-- Regla de negocio para colocar el socio de integración (MOODL) desde inicio del CRN o proceso posterior
     'B'  ,	-- Valor por default 'B'
     PROGRAMA,
     nulo,
@@ -553,7 +553,8 @@ RETURN(c_out_materias_docente);
 
 END F_MATERIAS_DOCENTE;
 
-FUNCTION F_FECHAS_PARCIAL(PERIODO varchar2, CRN varchar2, PARCIAL varchar2)  RETURN PKG_UTEG.CURSOR_FECHAS_PARCIAL
+
+FUNCTION F_FECHAS_PARCIAL(PERIODO varchar2, CRN varchar2) RETURN PKG_UTEG.CURSOR_FECHAS_PARCIAL
 
 AS c_out_fechas_parcial PKG_UTEG.CURSOR_FECHAS_PARCIAL;
 
@@ -585,21 +586,21 @@ BEGIN
 select spriden_pidm into pidm from spriden
 where spriden_id=IDEN and spriden_change_ind is null;
 
--- Verifica si ya se insert� registro de falta
+-- Verifica si ya se insertó registro de falta
 select count(*) into contador
 from skrattr
 where skrattr_term_code=PERIODO and skrattr_crn=CRN
 and   skrattr_pidm=pidm and trunc(skrattr_date)=to_date(FECHA,'dd/mm/yyyy');
 
 if contador = 0 then
-    -- Obtiene n�mero secuencia
+    -- Obtiene número secuencia
     select SKRATTR_KEY_SEQ.nextval into secuencia from dual;
     
     
     --Obtiene dia de la semana de la fecha de falta
     select DECODE(RTRIM(LTRIM(to_char(to_date(FECHA,'dd/mm/yyyy'), 'DAY', 'NLS_DATE_LANGUAGE=SPANISH'))),
-    'LUNES', 1, 'MARTES', 2, 'MI�RCOLES', 3, 'JUEVES', 4,
-    'VIERNES', 5, 'S�BADO', 6, 7) into day_number
+    'LUNES', 1, 'MARTES', 2, 'MIÉRCOLES', 3, 'JUEVES', 4,
+    'VIERNES', 5, 'SÁBADO', 6, 7) into day_number
     from dual;
     
     hora_ini:='0000'; 
@@ -764,7 +765,7 @@ RETURN(c_out_existe_bloque);
 
 END F_EXISTE_BLOQUE;
 
-FUNCTION F_ALUMNOS_PARCIAL(PERIODO varchar2, CRN varchar2, PARCIAL varchar2)  RETURN PKG_UTEG.cursor_alumnos_parcial
+FUNCTION F_ALUMNOS_PARCIAL(PERIODO varchar2, CRN varchar2,  PARCIAL varchar2)  RETURN PKG_UTEG.cursor_alumnos_parcial
 
 AS c_out_alumnos_parcial PKG_UTEG.cursor_alumnos_parcial;
 
@@ -782,7 +783,7 @@ and   skrattr_attend_ind='N') No_Faltas ,
  and   tbraccd_balance > 0 and trunc(tbraccd_effective_date) >= trunc(sysdate)) No_adeudos,
 shrgcom_weight Ponderacion, shrmrks_grde_code Calificacion, shrgcom_name parcial, sfrrsts_start_date f_inicio, sfrrsts_end_date f_fin
 from shrmrks, spriden, shrgcom, sfrrsts, ssbsect
-where shrgcom_term_code=PERIODO and shrgcom_crn=CRN and substr(shrgcom_name,1,1)=PARCIAL 
+where shrgcom_term_code=PERIODO and shrgcom_crn=CRN and substr(shrgcom_name,1,1)=PARCIAL
 and   shrmrks_term_code=shrgcom_term_code and shrgcom_id=shrmrks_gcom_id
 and   spriden_pidm=shrmrks_pidm and spriden_change_ind is null
 and   ssbsect_term_code=shrgcom_term_code and ssbsect_crn=shrgcom_crn
@@ -810,8 +811,8 @@ BEGIN
     fecha:=to_char(sysdate,'dd/mm/yyyy');
 
     select DECODE(RTRIM(LTRIM(to_char(to_date(fecha,'dd/mm/yyyy'), 'DAY', 'NLS_DATE_LANGUAGE=SPANISH'))),
-    'LUNES', 1, 'MARTES', 2, 'MI�RCOLES', 3, 'JUEVES', 4,
-    'VIERNES', 5, 'S�BADO', 6, 7) into dia
+    'LUNES', 1, 'MARTES', 2, 'MIÉRCOLES', 3, 'JUEVES', 4,
+    'VIERNES', 5, 'SÁBADO', 6, 7) into dia
     from dual;
     
     dbms_output.put_line('fecha:'||fecha||' dia:'||dia);
@@ -944,12 +945,9 @@ BEGIN
     sgbstdn_rate_code turno,
     (select spriden_id from spriden a where sirasgn_pidm = a.spriden_pidm and spriden_change_ind is null) matricula_prof, 
     (select a.spriden_first_name||' '||a.spriden_last_name from spriden a where sirasgn_pidm = a.spriden_pidm and spriden_change_ind is null) nombre_prof, 
-    ssbsect_crse_title clave_materia,
-    --sfrstcr_pidm, 
-    ssbsect_subj_code||' '||ssbsect_crse_numb nombre_materia, 
+    ssbsect_subj_code||' '||ssbsect_crse_numb clave_materia, 
+    ssbsect_crse_title nombre_materia,
     shrgcom_term_code ciclo,
-    --ssbsect_keyword_index_id,
-    --ssbsect_ptrm_code,
     spriden_id matricula_alumno,
     spriden_first_name||' '||spriden_last_name nombre_alumno, 
     (select count(*) 
@@ -962,7 +960,7 @@ BEGIN
     from sfrstcr
     inner join spriden on spriden_pidm=sfrstcr_pidm and spriden_change_ind is null and sfrstcr_term_code = periodo and sfrstcr_rsts_code='RE' and sfrstcr_crn= crn --'1001'  '202420'
     inner join sgbstdn on spriden_pidm = sgbstdn_pidm
-    inner join shrgcom on shrgcom_term_code=sfrstcr_term_code and shrgcom_crn=sfrstcr_crn and shrgcom_name = parcial --'1P'
+    inner join shrgcom on shrgcom_term_code=sfrstcr_term_code and shrgcom_crn=sfrstcr_crn --and shrgcom_name = parcial --'1P'
     inner join sirasgn on sirasgn_term_code = shrgcom_term_code and sirasgn_crn = shrgcom_crn
     inner join ssbsect on ssbsect_term_code=sfrstcr_term_code and ssbsect_crn=sfrstcr_crn 
     inner join sfrrsts on sfrrsts_term_code=shrgcom_term_code and sfrrsts_ptrm_code=ssbsect_ptrm_code and substr(shrgcom_name,1,1)=substr(sfrrsts_rsts_code,1,1)
@@ -983,7 +981,8 @@ min_calif number;
 calif_rep number;
 porc_faltas number;
 ptrm_code varchar2(4);
-sesiones number; No_Faltas number;
+sesiones number;
+No_Faltas number;
 mensaje varchar2(20);
 
 cursor a1 is
@@ -1002,7 +1001,7 @@ where spriden_id=ID_ESTU and spriden_change_ind is null;
 select spriden_pidm into pidm_doc from spriden
 where spriden_id=ID_DOC and spriden_change_ind is null;
 
--- Obtienen calificaci�n m�nima por programa
+-- Obtienen calificación mínima por programa
 select to_number(smbpgen_grde_code_min) into min_calif
 from smbpgen
 where smbpgen_program=PROGRAMA;
@@ -1030,7 +1029,7 @@ select max(shrgrde_quality_points) into calif_rep from shrgrde, smrprle
     where smrprle_program=PROGRAMA
     and shrgrde_levl_code=smrprle_levl_code and shrgrde_passed_ind='N';
     
-if calificacion < min_calif then -- Calificaci�n menor a calificaci�n m�nima para aprobar
+if calificacion < min_calif then -- Calificación menor a calificación mínima para aprobar
    
    calificacion:=calif_rep;
 else
@@ -1044,7 +1043,7 @@ else
                 where smrprle_program=PROGRAMA
                 and  gorsdav_table_name='STVLEVL' and gorsdav_attr_name='FA_SIN_DER' 
                 and gorsdav_pk_parenttab='UTG'||chr(1)||smrprle_levl_code;
-    -- Obtiene n�mero total de faltas 
+    -- Obtiene número total de faltas 
     select count(*) into No_Faltas
     from skrattr
     where skrattr_term_code=PERIODO and skrattr_crn=CRN
@@ -1092,13 +1091,13 @@ begin
     dias:= f_fin - f_inicio;
     f_inicio:=f_inicio-1;
     
-    dbms_output.put_line('n�mero dias:'||dias);
+    dbms_output.put_line('número dias:'||dias);
     sesiones:=0;
     for f in 1..dias loop
       --  dbms_output.put_line('fecha:'||to_char(f_inicio+f,'dd/mm/yyyy'));
         select DECODE(RTRIM(LTRIM(to_char(to_date(f_inicio+f,'dd/mm/yyyy'), 'DAY', 'NLS_DATE_LANGUAGE=SPANISH'))),
-        'LUNES', 1, 'MARTES', 2, 'MI�RCOLES', 3, 'JUEVES', 4,
-        'VIERNES', 5, 'S�BADO', 6, 7) into day_number
+        'LUNES', 1, 'MARTES', 2, 'MIÉRCOLES', 3, 'JUEVES', 4,
+        'VIERNES', 5, 'SÁBADO', 6, 7) into day_number
         from dual;
               
         -- Obtiene horario del CRN y Fecha 
@@ -1226,7 +1225,7 @@ FUNCTION F_INSERTA_CAL_EXT (matricula varchar2, term_code varchar2, crn varchar2
                              vl_return:='Exito';
                              EXCEPTION WHEN OTHERS THEN
                                 vl_msje:=sqlerrm;
-                                vl_return:='Error : al asignar calificaci�n'||vl_msje;
+                                vl_return:='Error : al asignar calificación'||vl_msje;
                               END;
                             COMMIT;                
                         END IF;
@@ -1241,7 +1240,7 @@ return(vl_return);
 END F_INSERTA_CAL_EXT;
 
 
-FUNCTION F_REPORTE_CAL_FINALES (iden varchar2, periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_fin
+FUNCTION F_REPORTE_CAL_FINALES (iden varchar2, periodo varchar2, parcial varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_fin
 
 AS c_out_calif_fin PKG_UTEG.cursor_calif_fin;
 
@@ -1249,6 +1248,8 @@ BEGIN
 
 OPEN c_out_calif_fin FOR
     select 
+    smrprle_program_desc programa, 
+    sgbstdn_levl_code grado,
     shrtckn_crn clave_grupo,
     sgbstdn_rate_code turno,
     (select spriden_id from spriden a where sirasgn_pidm = a.spriden_pidm and spriden_change_ind is null) matricula_prof, 
@@ -1275,11 +1276,258 @@ OPEN c_out_calif_fin FOR
     inner join sirasgn on sirasgn_term_code = shrtckn_term_code and sirasgn_crn = shrtckn_crn and sirasgn_pidm = (select spriden_pidm
                                                                                                                   from spriden where spriden_id = iden  --'G00122869'
                                                                                                                    and spriden_change_ind is null)
-    inner join shrgrde on shrgrde_code = shrtckg_grde_code_final and shrgrde_levl_code = sgbstdn_levl_code and shrgrde_vpdi_code ='UTG';
+    inner join shrgrde on shrgrde_code = shrtckg_grde_code_final and shrgrde_levl_code = sgbstdn_levl_code and shrgrde_vpdi_code ='UTG'
+    inner join smrprle on sgbstdn_program_1 = smrprle_program;
     
     RETURN(c_out_calif_fin);
     
  END F_REPORTE_CAL_FINALES;
+ 
+ 
+FUNCTION F_ALUMNOS_GRUPO  (periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_alumnos_crn
+
+AS c_out_alumnos_crn PKG_UTEG.cursor_alumnos_crn;
+
+BEGIN
+
+OPEN c_out_alumnos_crn FOR
+select spriden_id matricula,
+spriden_first_name||' '||spriden_last_name nombre_alumno,
+shrgcom_id parcial,
+sfrstcr_crn grupo
+From spriden, sfrstcr, shrmrks, shrgcom
+Where 1=1
+and spriden_pidm = sfrstcr_pidm
+and spriden_change_ind is null
+and sfrstcr_pidm = shrmrks_pidm
+and sfrstcr_term_code = shrmrks_term_code
+and sfrstcr_crn = shrmrks_crn
+and shrmrks_term_code = shrgcom_term_code
+and shrmrks_crn = shrgcom_crn
+and shrmrks_gcom_id = shrgcom_id
+and sfrstcr_term_code = periodo-- '202420'
+and sfrstcr_crn  ='1001'
+order by 3,4 asc;
+
+
+RETURN(c_out_alumnos_crn);
+
+END F_ALUMNOS_GRUPO;
+ 
+ PROCEDURE  GENERA_CRN_EXT  is
+
+periodo_ext varchar2(6);
+periodo_base varchar2(6);
+tipo_per_ext varchar2(1);
+tipo_per_base varchar2(1);
+crn number;
+title varchar2(30);
+creditos decimal(6,2);
+f_inicio date;
+f_fin    date;
+semanas  number;
+teo     number;
+prac    number;
+otr     number;
+cont    number;
+nulo varchar2(1) default null;
+SCHD_CODE varchar2(4);
+INSM_CODE varchar2(4);
+GSCH_NAME varchar2(10);
+GMOD_CODE varchar2(1);
+
+contador number;
+
+cursor a2 is
+select stvterm_code periodo_ext,stvterm_trmt_code tipo_per_ext  from stvterm
+where stvterm_trmt_code in ('D','E','F')
+and   trunc(stvterm_start_date)=trunc(sysdate);
+
+cursor a1(per_base varchar2) is
+select shrtckn_subj_code SUBJ_CODE,shrtckn_crse_numb CRSE_NUMB, shrtckn_crn, shrtckn_crse_title TITLE,
+ssbsect_camp_code campus,ssbsect_keyword_index_id programa, count(*) Total_alumnos
+from shrtckn, shrtckg  , ssbsect , smrprle, shrgrde
+where shrtckn_term_code=per_base and shrtckg_term_code=shrtckn_term_code  and shrtckg_pidm=shrtckn_pidm
+and shrtckg_tckn_seq_no=shrtckn_seq_no 
+and ssbsect_term_code=shrtckn_term_code and ssbsect_crn=shrtckn_crn
+and ssbsect_keyword_index_id=smrprle_program and smrprle_levl_code=shrgrde_levl_code
+and shrtckg_grde_code_final=shrgrde_code and shrgrde_passed_ind='N'
+--order by shrtckn_pidm, shrtckn_pidm;
+group by shrtckn_subj_code, shrtckn_crse_numb, shrtckn_crn, shrtckn_crse_title, ssbsect_camp_code,ssbsect_keyword_index_id;
+
+
+begin
+
+
+
+for x in a2 loop
+
+    if x.tipo_per_ext='D' then tipo_per_base:='C'; end if;
+    if x.tipo_per_ext='E' then tipo_per_base:='S'; end if;
+    if x.tipo_per_ext='F' then tipo_per_base:='T'; end if;
+    
+    select max(stvterm_code) into periodo_base from stvterm
+    where stvterm_trmt_code=tipo_per_base and stvterm_code < x.periodo_ext;
+    
+    select count(*) into contador
+    from ssbsect
+    where ssbsect_term_code=x.periodo_ext;
+    
+    if contador = 0 then
+
+    for c in a1(periodo_base) loop
+    
+        -- Crear CRN
+        update sobterm set sobterm_crn_oneup=sobterm_crn_oneup+1
+        where sobterm_term_code=x.periodo_ext;
+        
+        select sobterm_crn_oneup into crn from sobterm
+        where sobterm_term_code=x.periodo_ext;
+    
+    
+    
+        select SCBCRSE_TITLE, SCBCRSE_LEC_HR_LOW, SCBCRSE_LAB_HR_LOW, SCBCRSE_OTH_HR_LOW, SCBCRSE_CONT_HR_LOW
+        into title, teo, prac, otr, cont
+        from scbcrse
+        where scbcrse_subj_code=c.SUBJ_CODE and scbcrse_crse_numb=c.CRSE_NUMB;
+    
+        begin
+         select SCBCRSE_CREDIT_HR_LOW into creditos 
+            from scbcrse
+            where scbcrse_subj_code=c.SUBJ_CODE and scbcrse_crse_numb=c.CRSE_NUMB;  
+        exception when others then
+        creditos:=0;
+        end;
+    
+        select sobptrm_start_date, sobptrm_end_date, sobptrm_weeks
+        into f_inicio, f_fin, semanas
+        from sobptrm
+        where sobptrm_term_code=x.periodo_ext and sobptrm_ptrm_code='1';
+    
+        SELECT 
+        SCRSCHD_SCHD_CODE,
+        SCRSCHD_INSM_CODE
+        INTO 
+        SCHD_CODE,
+        INSM_CODE 
+        FROM SCRSCHD C1
+        WHERE C1.SCRSCHD_SUBJ_CODE = c.SUBJ_CODE
+        AND C1.SCRSCHD_CRSE_NUMB   = c.CRSE_NUMB
+        AND C1.SCRSCHD_EFF_TERM   = ( select max(C2.SCRSCHD_EFF_TERM)
+                                      FROM SCRSCHD C2
+                                     WHERE C2.SCRSCHD_SUBJ_CODE = c.SUBJ_CODE
+                                       AND C2.SCRSCHD_CRSE_NUMB   =c.CRSE_NUMB
+                                       AND C2.SCRSCHD_EFF_TERM <= x.periodo_ext
+                                  );
+    
+        -- Obtiene Escala de Calificación
+        select  CASE SYS.ANYDATA.getTypeName(gorsdav_value) 
+                                WHEN 'SYS.VARCHAR2' THEN SYS.ANYDATA.accessVarchar2(gorsdav_value) 
+                                WHEN 'SYS.NUMBER'   THEN TO_CHAR(SYS.ANYDATA.accessNumber(gorsdav_value))
+                                WHEN 'SYS.DATE'     THEN TO_CHAR(SYS.ANYDATA.accessDate(gorsdav_value), 'DD-MON-YYYY') 
+                            END  into GSCH_NAME
+                    from gorsdav, sobcurr
+                    where sobcurr_camp_code=c.campus and sobcurr_program=c.programa
+                    and  gorsdav_table_name='STVLEVL' and gorsdav_attr_name='ESCLA_CALI' 
+                    and gorsdav_pk_parenttab='UTG'||chr(1)||sobcurr_levl_code;
+                    
+        -- Obtiene Modo de Calificación
+        select  CASE SYS.ANYDATA.getTypeName(gorsdav_value) 
+                                WHEN 'SYS.VARCHAR2' THEN SYS.ANYDATA.accessVarchar2(gorsdav_value) 
+                                WHEN 'SYS.NUMBER'   THEN TO_CHAR(SYS.ANYDATA.accessNumber(gorsdav_value))
+                                WHEN 'SYS.DATE'     THEN TO_CHAR(SYS.ANYDATA.accessDate(gorsdav_value), 'DD-MON-YYYY') 
+                            END  into GMOD_CODE
+                    from gorsdav, sobcurr
+                    where sobcurr_camp_code=c.campus and sobcurr_program=c.programa
+                    and  gorsdav_table_name='STVLEVL' and gorsdav_attr_name='MOD_CALI' 
+                    and gorsdav_pk_parenttab='UTG'||chr(1)||sobcurr_levl_code;
+    
+        insert into ssbsect values(
+        x.periodo_ext,  		-- Clave de periodo en dónde se crea el CRN
+        CRN,				-- Se obtiene de SOBTERM_CRN_ONEUP +1 buscando por SOBTERM_TERM_CODE
+        '1',		-- Regla de negocio para poner la parte de periodo
+        c.SUBJ_CODE  ,		-- Subject de la matera (SUBJ_CODE)
+        c.CRSE_NUMB  ,		-- Course de la materia (CRSE_NUMB)
+        'A',		-- Definir valor para la sección (puede ser la letra del Bloque)
+        'A',      		-- Valor por default 'A' Activo
+        SCHD_CODE,      		-- Tipo de hora Teórico, Práctico Tabla (STVSCHD)
+        c.campus,    		-- Clave de Campus
+        TITLE       ,  	-- Nombre Materia (SCBCRSE_TITLE)
+        creditos    , 	-- Créditos (SMRACAA_MAX_CRED_CRSE) 
+        1       , 	-- Valor por default 1
+        GMOD_CODE             , 	-- Tipo de Calificación (S=Standard, G=Base 100)
+        nulo              , 	-- Valor por defaul null
+        nulo               , 	-- Valor por defaul null
+        nulo              , 	-- Valor por defaul null 
+        'Y'               , 	-- Valor por default 'Y'
+        'Y'           ,	-- Valor por default 'Y'
+        nulo               ,	-- Valor por defaul null 
+        0             ,	-- Valor por default 0 (cero)
+        0             ,	-- Valor por default 0 (cero) 
+        0              ,	-- Valor por default 0 (cero) 
+        50               ,	-- Capacidad máxima del grupo
+        0                   ,	-- Valor por default 0 (cero) 
+        50            ,	-- Capacidad máxima del grupo
+        0         ,	-- Valor por default 0 (cero)
+        0            ,	-- Valor por default 0 (cero)
+        f_inicio      ,   -- Fecha Inicio (SOBPTRM_START_DATE) dependiendo de la parte de periodo (PTRM_CODE)
+        sysdate        , -- Fecha de registro
+        f_inicio        ,   -- Fecha Inicio (SOBPTRM_START_DATE) dependiendo de la parte de periodo (PTRM_CODE)
+        f_fin       ,   -- Fecha Fin    (SOBPTRM_END_DATE) dependiendo de la parte de periodo (PTRM_CODE)
+        semanas,               -- SOBPTRM_PTRM_WEEKS dependiendo de la parte de periodo (PTRM_CODE)
+        nulo           ,	-- Valor por default null
+        0          ,	-- Valor por default 0 (cero)
+        0             ,	-- Valor por default 0 (cero)
+        0             ,	-- Valor por default 0 (cero)
+        teo                 ,	-- Horas teóricas (SCBCRSE_LEC_HR_LOW)
+        prac                 ,	-- Horas teóricas (SCBCRSE_LAB_HR_LOW)
+        otr                 ,	-- Horas teóricas (SCBCRSE_OTH_HR_LOW)
+        cont                ,	-- Horas teóricas (SCBCRSE_CONT_HR_LOW)
+        nulo              ,	-- Valor por default null 
+        nulo              ,	-- Valor por default null 
+        nulo          ,	-- Valor por default null 
+        nulo      ,	-- Valor por default null 
+        nulo      ,	-- Valor por default null 
+        nulo      ,	-- Valor por default null 
+        0          ,	-- Valor por default 0 (cero)
+        'Y'            ,	-- Valor por default 'Y'
+        'N'   ,	-- Valor por default 'N'
+        GSCH_NAME              ,	-- Regla para obtener la escala númerica de Calificación
+        nulo           ,	-- Valor por default null 
+        nulo         ,	-- Valor por default null 
+        INSM_CODE, ----p_insm_code,   -- Regla para obtener la modalidad del grupo materia. Tabla (GTVINSM)
+        nulo          ,	-- Valor por default null
+        nulo            ,	-- Valor por default null
+        nulo ,	-- Valor por default null
+        nulo ,	-- Valor por default null
+        nulo              ,	-- Valor por default null
+        nulo        ,	-- Valor por default null
+        0   ,	-- Valor por default 0 (cero)
+        'INTERFAZ'            , -- Valor por default Usuario 'INTERFAZ'
+        'AUTM'                ,	-- Valor por default Usuario 'AUTM'
+        nulo               ,	-- Regla de negocio para colocar el socio de integración (MOODL) desde inicio del CRN o proceso posterior
+        'B'  ,	-- Valor por default 'B'
+        c.programa,
+        nulo,
+        nulo,
+        nulo,
+        nulo,
+        nulo,
+        nulo,
+        nulo,
+        'N',
+        nulo,
+        nulo);
+        
+    
+    end loop;
+    
+    end if;
+
+end loop;
+ commit;
+
+
+END GENERA_CRN_EXT;
     
 END pkg_UTEG;
-/
