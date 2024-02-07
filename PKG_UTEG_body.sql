@@ -1306,7 +1306,7 @@ and shrmrks_term_code = shrgcom_term_code
 and shrmrks_crn = shrgcom_crn
 and shrmrks_gcom_id = shrgcom_id
 and sfrstcr_term_code = periodo-- '202420'
-and sfrstcr_crn  ='1001'
+and sfrstcr_crn  = crn --'1001'
 order by 3,4 asc;
 
 
