@@ -189,12 +189,13 @@ WHERE 1=1;
 TYPE cursor_lista_inasistencia IS REF CURSOR
 RETURN c_out_lista_inasistencia%ROWTYPE;
 
-FUNCTION F_CALIFICACIONES_PARCIALES(periodo varchar2, parcial varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_par;
+FUNCTION F_CALIFICACIONES_PARCIALES(periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_par;
 
 CURSOR c_out_calif_par IS
 
 SELECT
 'programa',
+'grado',
 'parcial',
 'clave_grupo',
 'turno',
