@@ -932,7 +932,7 @@ RETURN(c_out_lista_inasistencia);
 
 END F_LISTA_INASISTENCIA;
 
-FUNCTION F_CALIFICACIONES_PARCIALES(periodo varchar2, parcial varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_par
+FUNCTION F_CALIFICACIONES_PARCIALES(periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_par
 
 AS c_out_calif_par PKG_UTEG.cursor_calif_par;
 
@@ -940,6 +940,7 @@ BEGIN
 
     OPEN c_out_calif_par FOR
     select smrprle_program_desc programa, 
+    substr(sgrsatt_atts_code,2,1) grado,
     shrgcom_name parcial,
     sirasgn_crn clave_grupo,
     sgbstdn_rate_code turno,
@@ -966,7 +967,10 @@ BEGIN
     inner join sfrrsts on sfrrsts_term_code=shrgcom_term_code and sfrrsts_ptrm_code=ssbsect_ptrm_code and substr(shrgcom_name,1,1)=substr(sfrrsts_rsts_code,1,1)
     inner join shrmrks on shrmrks_term_code=shrgcom_term_code and shrmrks_crn=shrgcom_crn and shrgcom_id=shrmrks_gcom_id and shrmrks_pidm=sfrstcr_pidm
     left  join shrgrde on shrgrde_code = shrmrks_grde_code and shrgrde_levl_code = sgbstdn_levl_code
-    inner join smrprle on ssbsect_keyword_index_id = smrprle_program;
+    inner join smrprle on ssbsect_keyword_index_id = smrprle_program
+    inner join sgrsatt on sgrsatt_pidm = sfrstcr_pidm and sfrstcr_term_code = shrtckn_term_code
+    inner join stvatts on stvatts_code = sgrsatt_atts_code
+    order by 3,4,11 ASC;
     
     return(c_out_calif_par);
 
@@ -1249,7 +1253,7 @@ BEGIN
 OPEN c_out_calif_fin FOR
     select 
     smrprle_program_desc programa, 
-    sgbstdn_levl_code grado,
+    substr(sgrsatt_atts_code,2,1) grado,
     shrtckn_crn clave_grupo,
     sgbstdn_rate_code turno,
     (select spriden_id from spriden a where sirasgn_pidm = a.spriden_pidm and spriden_change_ind is null) matricula_prof, 
@@ -1277,7 +1281,9 @@ OPEN c_out_calif_fin FOR
                                                                                                                   from spriden where spriden_id = iden  --'G00122869'
                                                                                                                    and spriden_change_ind is null)
     inner join shrgrde on shrgrde_code = shrtckg_grde_code_final and shrgrde_levl_code = sgbstdn_levl_code and shrgrde_vpdi_code ='UTG'
-    inner join smrprle on sgbstdn_program_1 = smrprle_program;
+    inner join smrprle on sgbstdn_program_1 = smrprle_program
+    inner join sgrsatt on sgrsatt_pidm = shrtckg_pidm and sgrsatt_term_code_eff = shrtckn_term_code
+    inner join stvatts on stvatts_code = sgrsatt_atts_code;
     
     RETURN(c_out_calif_fin);
     
