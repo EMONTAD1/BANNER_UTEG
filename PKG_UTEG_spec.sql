@@ -193,13 +193,26 @@ CURSOR c_out_lista_inasistencia IS
 
 SELECT
 'Matricula',
-'Nombre',
-'Día'
+'Nombre'
 FROM
     DUAL
 WHERE 1=1;
 TYPE cursor_lista_inasistencia IS REF CURSOR
 RETURN c_out_lista_inasistencia%ROWTYPE;
+
+FUNCTION F_RETORNA_INACISTENCIA (matricula varchar2, periodo varchar2, crn varchar2)  RETURN PKG_UTEG.cursor_retorna_inasistencia;
+CURSOR c_out_retorna_inasistencia IS 
+SELECT
+'Matricula',
+'Nombre',
+'día',
+'fecha'
+FROM DUAL
+WHERE 1=1;
+TYPE cursor_retorna_inasistencia IS REF CURSOR
+RETURN c_out_retorna_inasistencia%ROWTYPE;
+
+AS c_out_retorna_inasistencia PKG_UTEG.cursor_retorna_inasistencia;
 
 FUNCTION F_CALIFICACIONES_PARCIALES(periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_par;
 
