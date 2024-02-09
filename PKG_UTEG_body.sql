@@ -1560,6 +1560,36 @@ end loop;
 
 END GENERA_CRN_EXT;
 
+
+FUNCTION F_FALTAS_X_GRUPO (periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_faltas_x_grupo
+
+AS c_out_faltas_x_grupo PKG_UTEG.cursor_faltas_x_grupo;
+
+BEGIN
+
+OPEN c_out_faltas_x_grupo FOR
+
+select skrattr_crn grupo,
+    spriden_id matricula, 
+    spriden_first_name||' '||spriden_last_name nombre_alumno,
+    count(shrtckn_pidm) total_faltas
+    from skrattr,spriden,shrtckn
+    where 1=1
+    and skrattr_pidm = shrtckn_pidm --569723
+    and skrattr_pidm = spriden_pidm
+    and spriden_change_ind is null
+    and skrattr_term_code = shrtckn_term_code --'202420'
+    and skrattr_attend_ind = 'N'
+    and skrattr_crn = shrtckn_crn--'1001';
+    and shrtckn_crn = crn --'1001'
+    and skrattr_term_code = periodo --'202420'
+    group by skrattr_crn, spriden_id, spriden_first_name, spriden_last_name;
+
+return(c_out_faltas_x_grupo);
+
+END F_FALTAS_X_GRUPO;
+
+
 --últimos Cambios 
     
 END pkg_UTEG;
