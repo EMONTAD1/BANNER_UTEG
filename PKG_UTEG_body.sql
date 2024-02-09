@@ -724,7 +724,7 @@ END ACTUALIZA_INASISTENCIA;
  SPBPERS_SEX genero,
  GORADID_ADID_CODE curp,
  SPRTELE_PHONE_NUMBER telefono_casa,
- (SELECT a.SPRTELE_PHONE_NUMBER FROM SPRTELE a WHERE 1=1 AND SPRTELE_PIDM IN(SELECT SPRIDEN_PIDM FROM SPRIDEN WHERE 1=1 AND SPRIDEN_ID = 'G00125853') AND SPRTELE_TELE_CODE = 'MO') celular,
+ (SELECT a.SPRTELE_PHONE_NUMBER FROM SPRTELE a WHERE 1=1 AND SPRTELE_PIDM IN(SELECT SPRIDEN_PIDM FROM SPRIDEN WHERE 1=1 AND SPRIDEN_ID = matricula) AND SPRTELE_TELE_CODE = 'MO') celular,
  GOREMAL_EMAIL_ADDRESS correo,
  SPRADDR_STREET_LINE1 calle_numero,
  STVSTAT_DESC estado,
@@ -956,7 +956,7 @@ RETURN(c_out_lista_inasistencia);
 
 END F_LISTA_INASISTENCIA;
 
-FUNCTION F_RETORNA_INACISTENCIA (matricula varchar2, periodo varchar2, crn varchar2)  RETURN PKG_UTEG.cursor_retorna_inasistencia
+FUNCTION F_RETORNA_INACISTENCIA (periodo varchar2, crn varchar2, fecha_min varchar2, fecha_max varchar2)  RETURN PKG_UTEG.cursor_retorna_inasistencia
 
 AS c_out_retorna_inasistencia PKG_UTEG.cursor_retorna_inasistencia;
 
@@ -966,18 +966,20 @@ OPEN c_out_retorna_inasistencia FOR
 
 select spriden_id Matricula, 
 spriden_first_name||' '||spriden_last_name Nombre,
+skrattr_term_code periodo,
 to_char(skrattr_date, 'DAY', 'NLS_DATE_LANGUAGE=SPANISH') día, 
 to_char(skrattr_date, 'dd-mm-yyyy') fecha
 from sfrstcr, spriden, skrattr
 where sfrstcr_term_code= periodo --202420
 and sfrstcr_crn=crn --1001
-and spriden_id = matricula --A00013103
+--and spriden_id = matricula --A00013103
 and  sfrstcr_rsts_code='RE'
 and  sfrstcr_pidm=spriden_pidm and spriden_change_ind is null
 and  skrattr_pidm = sfrstcr_pidm
 and  skrattr_term_code = sfrstcr_term_code
 and  skrattr_crn = sfrstcr_crn
 and skrattr_attend_ind = 'N'
+and  skrattr_date between (to_date(fecha_min, 'dd/mm/yyyy')) and (to_date(fecha_max, 'dd/mm/yyyy'))  --'22/01/2024', '28/01/2024'
 order by 2;
 
 return(c_out_retorna_inasistencia);
