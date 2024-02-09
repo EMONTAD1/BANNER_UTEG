@@ -833,7 +833,7 @@ BEGIN
     
     fecha:=to_char(sysdate,'dd/mm/yyyy');
 
-    select DECODE(RTRIM(LTRIM(to_char(to_date(fecha,'dd/mm/yyyy'), 'DAY', 'NLS_DATE_LANGUAGE=SPANISH'))),
+     select DECODE(RTRIM(LTRIM(to_char(to_date(fecha,'dd/mm/yyyy'), 'DAY', 'NLS_DATE_LANGUAGE=SPANISH'))),
     'LUNES', 1, 'MARTES', 2, 'MIÃ‰RCOLES', 3, 'JUEVES', 4,
     'VIERNES', 5, 'SÃ?BADO', 6, 7) into dia
     from dual;
@@ -944,11 +944,12 @@ AS c_out_lista_inasistencia PKG_UTEG.cursor_lista_inasistencia;
 BEGIN
    
 OPEN c_out_lista_inasistencia FOR
-select spriden_id Matricula, spriden_first_name||' '||spriden_last_name Nombre
+select spriden_id Matricula, spriden_first_name||' '||spriden_last_name Nombre, decode(SZTFECH_DIA,1, 'Lunes',2, 'Martes',3,'Miércoles',4,'Jueves',5,'Viernes',6,'Sábado',7,'Domingo') dia
 from sfrstcr, spriden
 where sfrstcr_term_code=PERIODO and sfrstcr_crn=CRN
 and   sfrstcr_rsts_code='RE'
 and   sfrstcr_pidm=spriden_pidm and spriden_change_ind is null
+and  sfrstcr_term_code = sztfech_periodo and sfrstcr_crn = sztfech_crn
 order by 2;
 
 RETURN(c_out_lista_inasistencia);
@@ -991,7 +992,7 @@ BEGIN
     inner join shrmrks on shrmrks_term_code=shrgcom_term_code and shrmrks_crn=shrgcom_crn and shrgcom_id=shrmrks_gcom_id and shrmrks_pidm=sfrstcr_pidm
     left  join shrgrde on shrgrde_code = shrmrks_grde_code and shrgrde_levl_code = sgbstdn_levl_code
     inner join smrprle on ssbsect_keyword_index_id = smrprle_program
-    inner join sgrsatt on sgrsatt_pidm = sfrstcr_pidm and sfrstcr_term_code = shrtckn_term_code
+    inner join sgrsatt on sgrsatt_pidm = sfrstcr_pidm and sgrsatt_term_code_eff = shrgcom_term_code
     inner join stvatts on stvatts_code = sgrsatt_atts_code
     order by 3,4,11 ASC;
     
@@ -1305,7 +1306,7 @@ OPEN c_out_calif_fin FOR
                                                                                                                    and spriden_change_ind is null)
     inner join shrgrde on shrgrde_code = shrtckg_grde_code_final and shrgrde_levl_code = sgbstdn_levl_code and shrgrde_vpdi_code ='UTG'
     inner join smrprle on sgbstdn_program_1 = smrprle_program
-    inner join sgrsatt on sgrsatt_pidm = shrtckg_pidm and sgrsatt_term_code_eff = shrtckn_term_code
+    inner join sgrsatt on sgrsatt_pidm = shrtckg_pidm and sgrsatt_term_code_eff = shrtckg_term_code
     inner join stvatts on stvatts_code = sgrsatt_atts_code;
     
     RETURN(c_out_calif_fin);
