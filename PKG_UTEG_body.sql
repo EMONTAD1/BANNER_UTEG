@@ -942,19 +942,47 @@ FUNCTION F_LISTA_INASISTENCIA(PERIODO varchar2, CRN varchar2)  RETURN PKG_UTEG.c
 AS c_out_lista_inasistencia PKG_UTEG.cursor_lista_inasistencia;
 
 BEGIN
-   
+
 OPEN c_out_lista_inasistencia FOR
-select spriden_id Matricula, spriden_first_name||' '||spriden_last_name Nombre, decode(SZTFECH_DIA,1, 'Lunes',2, 'Martes',3,'Miércoles',4,'Jueves',5,'Viernes',6,'Sábado',7,'Domingo') dia
+select spriden_id Matricula, spriden_first_name||' '||spriden_last_name Nombre
 from sfrstcr, spriden
 where sfrstcr_term_code=PERIODO and sfrstcr_crn=CRN
 and   sfrstcr_rsts_code='RE'
 and   sfrstcr_pidm=spriden_pidm and spriden_change_ind is null
-and  sfrstcr_term_code = sztfech_periodo and sfrstcr_crn = sztfech_crn
 order by 2;
+   
 
 RETURN(c_out_lista_inasistencia);
 
 END F_LISTA_INASISTENCIA;
+
+FUNCTION F_RETORNA_INACISTENCIA (matricula varchar2, periodo varchar2, crn varchar2)  RETURN PKG_UTEG.cursor_retorna_inasistencia
+
+AS c_out_retorna_inasistencia PKG_UTEG.cursor_retorna_inasistencia;
+
+BEGIN
+
+OPEN c_out_retorna_inasistencia FOR 
+
+select spriden_id Matricula, 
+spriden_first_name||' '||spriden_last_name Nombre,
+to_char(skrattr_date, 'DAY', 'NLS_DATE_LANGUAGE=SPANISH') día, 
+to_char(skrattr_date, 'dd-mm-yyyy') fecha
+from sfrstcr, spriden, skrattr
+where sfrstcr_term_code= periodo --202420
+and sfrstcr_crn=crn --1001
+and spriden_id = matricula --A00013103
+and  sfrstcr_rsts_code='RE'
+and  sfrstcr_pidm=spriden_pidm and spriden_change_ind is null
+and  skrattr_pidm = sfrstcr_pidm
+and  skrattr_term_code = sfrstcr_term_code
+and  skrattr_crn = sfrstcr_crn
+and skrattr_attend_ind = 'N'
+order by 2;
+
+return(c_out_retorna_inasistencia);
+
+END F_RETORNA_INACISTENCIA;
 
 FUNCTION F_CALIFICACIONES_PARCIALES(periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_par
 
