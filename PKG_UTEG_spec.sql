@@ -265,5 +265,19 @@ WHERE 1=1;
 TYPE cursor_alumnos_crn IS REF CURSOR
 RETURN c_out_alumnos_crn%ROWTYPE;
 
+FUNCTION F_FALTAS_X_GRUPO (periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_faltas_x_grupo;
+
+CURSOR c_out_faltas_x_grupo IS
+
+SELECT
+'grupo',
+'matricula',
+'nombre_alumno',
+'total_faltas'
+FROM DUAL
+WHERE 1=1;
+TYPE cursor_faltas_x_grupo IS REF CURSOR
+RETURN c_out_faltas_x_grupo%ROWTYPE;
+
 --últimos Cambios 
 end pkg_UTEG;
