@@ -195,7 +195,7 @@ SELECT
 'Matricula',
 'Nombre'
 FROM
-    DUAL
+DUAL
 WHERE 1=1;
 TYPE cursor_lista_inasistencia IS REF CURSOR
 RETURN c_out_lista_inasistencia%ROWTYPE;
@@ -212,7 +212,6 @@ WHERE 1=1;
 TYPE cursor_retorna_inasistencia IS REF CURSOR
 RETURN c_out_retorna_inasistencia%ROWTYPE;
 
-AS c_out_retorna_inasistencia PKG_UTEG.cursor_retorna_inasistencia;
 
 FUNCTION F_CALIFICACIONES_PARCIALES(periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_calif_par;
 
