@@ -200,11 +200,12 @@ WHERE 1=1;
 TYPE cursor_lista_inasistencia IS REF CURSOR
 RETURN c_out_lista_inasistencia%ROWTYPE;
 
-FUNCTION F_RETORNA_INACISTENCIA (matricula varchar2, periodo varchar2, crn varchar2)  RETURN PKG_UTEG.cursor_retorna_inasistencia;
+FUNCTION F_RETORNA_INACISTENCIA (periodo varchar2, crn varchar2, fecha_min varchar2, fecha_max varchar2)  RETURN PKG_UTEG.cursor_retorna_inasistencia;
 CURSOR c_out_retorna_inasistencia IS 
 SELECT
 'Matricula',
 'Nombre',
+'periodo',
 'día',
 'fecha'
 FROM DUAL
