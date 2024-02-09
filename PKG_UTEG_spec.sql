@@ -193,7 +193,8 @@ CURSOR c_out_lista_inasistencia IS
 
 SELECT
 'Matricula',
-'Nombre'
+'Nombre',
+'Día'
 FROM
     DUAL
 WHERE 1=1;
