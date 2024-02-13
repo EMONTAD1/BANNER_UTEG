@@ -944,13 +944,55 @@ AS c_out_lista_inasistencia PKG_UTEG.cursor_lista_inasistencia;
 BEGIN
 
 OPEN c_out_lista_inasistencia FOR
-select spriden_id Matricula, spriden_first_name||' '||spriden_last_name Nombre
+select spriden_id Matricula, spriden_first_name||' '||spriden_last_name Nombre,
+(select decode(skrattr_attend_ind,'N','N','S')
+from skrattr, sztfech
+where skrattr_term_code=sfrstcr_term_code and skrattr_crn=sfrstcr_crn
+and   skrattr_pidm=sfrstcr_pidm and   to_char(skrattr_date,'dd/mm/yyyy')=sztfech_fecha
+and   sztfech_periodo=skrattr_term_code and sztfech_crn=skrattr_crn
+and   sztfech_dia=1) Lunes,
+(select decode(skrattr_attend_ind,'N','N','S')
+from skrattr, sztfech
+where skrattr_term_code=sfrstcr_term_code and skrattr_crn=sfrstcr_crn
+and   skrattr_pidm=sfrstcr_pidm and   to_char(skrattr_date,'dd/mm/yyyy')=sztfech_fecha
+and   sztfech_periodo=skrattr_term_code and sztfech_crn=skrattr_crn
+and   sztfech_dia=2) Martes,
+(select decode(skrattr_attend_ind,'N','N','S')
+from skrattr, sztfech
+where skrattr_term_code=sfrstcr_term_code and skrattr_crn=sfrstcr_crn
+and   skrattr_pidm=sfrstcr_pidm and   to_char(skrattr_date,'dd/mm/yyyy')=sztfech_fecha
+and   sztfech_periodo=skrattr_term_code and sztfech_crn=skrattr_crn
+and   sztfech_dia=3) Miercoles,
+(select decode(skrattr_attend_ind,'N','N','S')
+from skrattr, sztfech
+where skrattr_term_code=sfrstcr_term_code and skrattr_crn=sfrstcr_crn
+and   skrattr_pidm=sfrstcr_pidm and   to_char(skrattr_date,'dd/mm/yyyy')=sztfech_fecha
+and   sztfech_periodo=skrattr_term_code and sztfech_crn=skrattr_crn
+and   sztfech_dia=4) Jueves,
+(select decode(skrattr_attend_ind,'N','N','S')
+from skrattr, sztfech
+where skrattr_term_code=sfrstcr_term_code and skrattr_crn=sfrstcr_crn
+and   skrattr_pidm=sfrstcr_pidm and   to_char(skrattr_date,'dd/mm/yyyy')=sztfech_fecha
+and   sztfech_periodo=skrattr_term_code and sztfech_crn=skrattr_crn
+and   sztfech_dia=5) Viernes,
+(select decode(skrattr_attend_ind,'N','N','S')
+from skrattr, sztfech
+where skrattr_term_code=sfrstcr_term_code and skrattr_crn=sfrstcr_crn
+and   skrattr_pidm=sfrstcr_pidm and   to_char(skrattr_date,'dd/mm/yyyy')=sztfech_fecha
+and   sztfech_periodo=skrattr_term_code and sztfech_crn=skrattr_crn
+and   sztfech_dia=6) Sabado,
+(select decode(skrattr_attend_ind,'N','N','S')
+from skrattr, sztfech
+where skrattr_term_code=sfrstcr_term_code and skrattr_crn=sfrstcr_crn
+and   skrattr_pidm=sfrstcr_pidm and   to_char(skrattr_date,'dd/mm/yyyy')=sztfech_fecha
+and   sztfech_periodo=skrattr_term_code and sztfech_crn=skrattr_crn
+and   sztfech_dia=7) Domingo
 from sfrstcr, spriden
 where sfrstcr_term_code=PERIODO and sfrstcr_crn=CRN
 and   sfrstcr_rsts_code='RE'
 and   sfrstcr_pidm=spriden_pidm and spriden_change_ind is null
 order by 2;
-   
+
 
 RETURN(c_out_lista_inasistencia);
 
