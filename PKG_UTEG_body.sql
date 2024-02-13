@@ -1746,26 +1746,24 @@ OPEN c_out_horarios_clase for
 select SSBSECT_SUBJ_CODE||SSBSECT_CRSE_NUMB clave_materia, 
 SCBCRSE_TITLE materia,
 SSBSECT_CRN grupo, 
-SSBSECT_TERM_CODE Ciclo,
-(SELECT SSRMEET_MON_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Lunes,
-(SELECT SSRMEET_TUE_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Martes,
-(SELECT SSRMEET_WED_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Miércoles,
-(SELECT SSRMEET_THU_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Jueves,
-(SELECT SSRMEET_FRI_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Viernes,
-(SELECT SSRMEET_SAT_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Sábado,
-SSRMEET_ROOM_CODE salon,
-STVBLDG_DESC edificio , 
-SLBRDEF_DESC ubicación,
-to_char(to_date(SSRMEET_BEGIN_TIME, 'hh24mi'),'hh24:mi')h_inicio,
-to_char(to_date(SSRMEET_END_TIME,'hh24mi'),'hh24:mi') h_termino
-from ssbsect, scbcrse, ssrmeet, stvbldg, slbrdef
+SSBSECT_TERM_CODE ciclo,
+(SELECT to_char(to_date(SSRMEET_BEGIN_TIME, 'hh24mi'),'hh24:mi')||'-'||to_char(to_date(SSRMEET_END_TIME,'hh24mi'),'hh24:mi')||'-'||SLBRDEF_ROOM_NUMBER||'-'||STVBLDG_DESC||'-'||SLBRDEF_DESC
+ FROM SSRMEET,STVBLDG,SLBRDEF 
+ WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn and SSRMEET_MON_DAY is not null AND SSRMEET_ROOM_CODE = SLBRDEF_ROOM_NUMBER AND SSRMEET_BLDG_CODE = SLBRDEF_BLDG_CODE AND STVBLDG_CODE = SLBRDEF_BLDG_CODE)Lunes,
+(SELECT to_char(to_date(SSRMEET_BEGIN_TIME, 'hh24mi'),'hh24:mi')||'-'||to_char(to_date(SSRMEET_END_TIME,'hh24mi'),'hh24:mi')||'-'||SLBRDEF_ROOM_NUMBER||'-'||STVBLDG_DESC||'-'||SLBRDEF_DESC
+FROM SSRMEET,STVBLDG,SLBRDEF WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn and SSRMEET_TUE_DAY is not null AND SSRMEET_ROOM_CODE = SLBRDEF_ROOM_NUMBER AND SSRMEET_BLDG_CODE = SLBRDEF_BLDG_CODE AND STVBLDG_CODE = SLBRDEF_BLDG_CODE)Martes,
+(SELECT to_char(to_date(SSRMEET_BEGIN_TIME, 'hh24mi'),'hh24:mi')||'-'||to_char(to_date(SSRMEET_END_TIME,'hh24mi'),'hh24:mi')||'-'||SLBRDEF_ROOM_NUMBER||'-'||STVBLDG_DESC||'-'||SLBRDEF_DESC
+FROM SSRMEET,STVBLDG,SLBRDEF WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn and SSRMEET_WED_DAY is not null AND SSRMEET_ROOM_CODE = SLBRDEF_ROOM_NUMBER AND SSRMEET_BLDG_CODE = SLBRDEF_BLDG_CODE AND STVBLDG_CODE = SLBRDEF_BLDG_CODE)Miércoles,
+(SELECT to_char(to_date(SSRMEET_BEGIN_TIME, 'hh24mi'),'hh24:mi')||'-'||to_char(to_date(SSRMEET_END_TIME,'hh24mi'),'hh24:mi')||'-'||SLBRDEF_ROOM_NUMBER||'-'||STVBLDG_DESC||'-'||SLBRDEF_DESC 
+FROM SSRMEET,STVBLDG,SLBRDEF WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn and SSRMEET_THU_DAY is not null AND SSRMEET_ROOM_CODE = SLBRDEF_ROOM_NUMBER AND SSRMEET_BLDG_CODE = SLBRDEF_BLDG_CODE AND STVBLDG_CODE = SLBRDEF_BLDG_CODE)Jueves,
+(SELECT to_char(to_date(SSRMEET_BEGIN_TIME, 'hh24mi'),'hh24:mi')||'-'||to_char(to_date(SSRMEET_END_TIME,'hh24mi'),'hh24:mi')||'-'||SLBRDEF_ROOM_NUMBER||'-'||STVBLDG_DESC||'-'||SLBRDEF_DESC 
+FROM SSRMEET,STVBLDG,SLBRDEF WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn and SSRMEET_FRI_DAY is not null AND SSRMEET_ROOM_CODE = SLBRDEF_ROOM_NUMBER AND SSRMEET_BLDG_CODE = SLBRDEF_BLDG_CODE AND STVBLDG_CODE = SLBRDEF_BLDG_CODE)Viernes,
+(SELECT to_char(to_date(SSRMEET_BEGIN_TIME, 'hh24mi'),'hh24:mi')||'-'||to_char(to_date(SSRMEET_END_TIME,'hh24mi'),'hh24:mi')||'-'||SLBRDEF_ROOM_NUMBER||'-'||STVBLDG_DESC||'-'||SLBRDEF_DESC
+FROM SSRMEET,STVBLDG,SLBRDEF WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn and SSRMEET_SAT_DAY is not null AND SSRMEET_ROOM_CODE = SLBRDEF_ROOM_NUMBER AND SSRMEET_BLDG_CODE = SLBRDEF_BLDG_CODE AND STVBLDG_CODE = SLBRDEF_BLDG_CODE)Sábado
+from ssbsect, scbcrse
 where 1=1
-and scbcrse_subj_code=ssbsect_subj_code and scbcrse_crse_numb=ssbsect_crse_numb
-and ssbsect_term_code = ssrmeet_term_code
-and ssbsect_crn=ssrmeet_crn
-and ssrmeet_room_code = slbrdef_room_number
-and ssrmeet_bldg_code = slbrdef_bldg_code
-and stvbldg_code = slbrdef_bldg_code
+and scbcrse_subj_code = ssbsect_subj_code 
+and scbcrse_crse_numb = ssbsect_crse_numb
 and ssbsect_term_code = periodo
 and ssbsect_crn = crn
 order by GRUPO;
