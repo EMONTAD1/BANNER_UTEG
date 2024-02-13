@@ -331,12 +331,7 @@ SELECT 'clave_materia',
 'Miércoles',
 'Jueves',
 'Viernes',
-'Sábado',
-'salón',
-'edificio',
-'ubicación',
-'h_inicio',
-'h_termino'
+'Sábado'
 FROM DUAL
 WHERE 1=1;
 
