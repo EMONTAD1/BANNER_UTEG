@@ -193,7 +193,14 @@ CURSOR c_out_lista_inasistencia IS
 
 SELECT
 'Matricula',
-'Nombre'
+'Nombre',
+'Lunes',
+'Martes',
+'Miercoles',
+'Jueves',
+'Viernes',
+'Sabado',
+'Domingo'
 FROM
 DUAL
 WHERE 1=1;
