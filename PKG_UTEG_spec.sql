@@ -292,5 +292,54 @@ WHERE 1=1;
 TYPE cursor_faltas_x_grupo IS REF CURSOR
 RETURN c_out_faltas_x_grupo%ROWTYPE;
 
+
+FUNCTION F_LISTA_EXTRAORDINARIO(PERIODO varchar2, CRN varchar2) RETURN PKG_UTEG.CURSOR_LISTA_EXT;
+CURSOR c_out_lista_ext  IS
+SELECT
+   'MATRICULA',
+   'NOMBRE',
+   'APELLIDOS',
+   'NO_FALTAS',
+   'PARCIAL_1',
+   'PARCIAL_2',
+   'PARCIAL_3',
+   'ORDINARIO',
+   'EXTRAORDINARIO'
+FROM
+    DUAL
+WHERE
+    1 = 1;
+TYPE CURSOR_LISTA_EXT IS REF CURSOR
+RETURN c_out_lista_ext%ROWTYPE;
+
+
+FUNCTION F_HORARIOS_CLASE(periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_horarios_clase;
+CURSOR c_out__horarios_clase IS
+SELECT 'clave_materia',
+'materia',
+'grupo',
+'ciclo',
+'Lunes',
+'Martes',
+'Miércoles',
+'Jueves',
+'Viernes',
+'Sábado',
+'salón',
+'edificio',
+'ubicación',
+'h_inicio',
+'h_termino'
+FROM DUAL
+WHERE 1=1;
+
+TYPE cursor_horarios_clase IS REF CURSOR
+RETURN c_out__horarios_clase%ROWTYPE;
+
+
+
+
+
+
 --últimos Cambios 
 end pkg_UTEG;
