@@ -1620,6 +1620,118 @@ return(c_out_faltas_x_grupo);
 END F_FALTAS_X_GRUPO;
 
 
---últimos Cambios 
+FUNCTION F_LISTA_EXTRAORDINARIO(PERIODO varchar2, CRN varchar2) RETURN PKG_UTEG.CURSOR_LISTA_EXT
+
+AS c_out_lista_ext PKG_UTEG.CURSOR_LISTA_EXT;
+
+trmt_code varchar2(1);
+tipo_per_base varchar2(1);
+subj_code varchar2(6); crse_numb varchar2(6);  programa varchar2(12);
+periodo_base  varchar2(6);
+
+BEGIN
+
+select stvterm_trmt_code into trmt_code from stvterm
+where stvterm_code=PERIODO; 
+
+    if trmt_code='D' then tipo_per_base:='C'; end if;
+    if trmt_code='E' then tipo_per_base:='S'; end if;
+    if trmt_code='F' then tipo_per_base:='T'; end if;
+
+    select max(stvterm_code)  into periodo_base 
+    from stvterm
+    where stvterm_trmt_code=tipo_per_base and stvterm_code < PERIODO;
     
+    select ssbsect_subj_code, ssbsect_crse_numb, ssbsect_keyword_index_id
+    into subj_code, crse_numb, programa
+    from ssbsect
+    where ssbsect_term_code=PERIODO and ssbsect_crn=CRN;
+    
+OPEN c_out_lista_ext FOR
+select spriden_id MATRICULA, spriden_first_name NOMBRE, spriden_last_name APELLIDOS, 
+(select count(*) from ssbsect,sfrstcr xx, skrattr 
+ where ssbsect_term_code=periodo_base and ssbsect_subj_code='AFGE' and ssbsect_crse_numb=crse_numb 
+ and ssbsect_keyword_index_id=programa
+ and   xx.sfrstcr_term_code=ssbsect_term_code and xx.sfrstcr_crn=ssbsect_crn and spriden_pidm=xx.sfrstcr_pidm
+ and   skrattr_term_code=ssbsect_term_code and skrattr_crn=ssbsect_crn and skrattr_pidm=xx.sfrstcr_pidm
+and   skrattr_attend_ind='N') No_Faltas,
+(select shrmrks_grde_code from ssbsect,sfrstcr xx, shrgcom, shrmrks 
+ where ssbsect_term_code=periodo_base and ssbsect_subj_code=subj_code and ssbsect_crse_numb=crse_numb 
+ and ssbsect_keyword_index_id=programa
+ and   xx.sfrstcr_term_code=ssbsect_term_code and xx.sfrstcr_crn=ssbsect_crn and spriden_pidm=xx.sfrstcr_pidm
+ and   shrgcom_term_code=ssbsect_term_code and shrgcom_crn=ssbsect_crn and shrgcom_name='1P'
+ and   shrmrks_term_code=ssbsect_term_code and shrmrks_crn=ssbsect_crn and shrmrks_gcom_id=shrgcom_id
+ and   shrmrks_pidm=xx.sfrstcr_pidm) PARCIAL_1,
+(select shrmrks_grde_code from ssbsect,sfrstcr xx, shrgcom, shrmrks 
+ where ssbsect_term_code=periodo_base and ssbsect_subj_code=subj_code and ssbsect_crse_numb=crse_numb 
+ and ssbsect_keyword_index_id=programa
+ and   xx.sfrstcr_term_code=ssbsect_term_code and xx.sfrstcr_crn=ssbsect_crn and spriden_pidm=xx.sfrstcr_pidm
+ and   shrgcom_term_code=ssbsect_term_code and shrgcom_crn=ssbsect_crn and shrgcom_name='2P'
+ and   shrmrks_term_code=ssbsect_term_code and shrmrks_crn=ssbsect_crn and shrmrks_gcom_id=shrgcom_id
+ and   shrmrks_pidm=xx.sfrstcr_pidm) PARCIAL_2,
+(select shrmrks_grde_code from ssbsect,sfrstcr xx, shrgcom, shrmrks 
+ where ssbsect_term_code=periodo_base and ssbsect_subj_code=subj_code and ssbsect_crse_numb=crse_numb 
+ and ssbsect_keyword_index_id=programa
+ and   xx.sfrstcr_term_code=ssbsect_term_code and xx.sfrstcr_crn=ssbsect_crn and spriden_pidm=xx.sfrstcr_pidm
+ and   shrgcom_term_code=ssbsect_term_code and shrgcom_crn=ssbsect_crn and shrgcom_name='3P'
+ and   shrmrks_term_code=ssbsect_term_code and shrmrks_crn=ssbsect_crn and shrmrks_gcom_id=shrgcom_id
+ and   shrmrks_pidm=xx.sfrstcr_pidm) PARCIAL_3,
+(select shrtckg_grde_code_final from ssbsect,sfrstcr xx, shrtckn, shrtckg 
+ where ssbsect_term_code=periodo_base and ssbsect_subj_code=subj_code and ssbsect_crse_numb=crse_numb 
+ and ssbsect_keyword_index_id=programa
+ and   xx.sfrstcr_term_code=ssbsect_term_code and xx.sfrstcr_crn=ssbsect_crn and spriden_pidm=xx.sfrstcr_pidm
+ and   shrtckn_term_code=ssbsect_term_code and shrtckn_crn=ssbsect_crn and shrtckn_pidm=xx.sfrstcr_pidm
+ and   shrtckg_term_code=shrtckn_term_code and shrtckg_tckn_seq_no=shrtckn_seq_no 
+ and   shrtckg_pidm=shrtckn_pidm) ORDINARIO,     
+sfrstcr_grde_code EXTRAORDINARIO
+from sfrstcr x, spriden
+where sfrstcr_term_code=PERIODO and sfrstcr_crn=CRN and sfrstcr_rsts_code='RE'
+and   spriden_pidm=sfrstcr_pidm and spriden_change_ind is null;
+
+RETURN(c_out_lista_ext);
+
+END F_LISTA_EXTRAORDINARIO;
+
+
+FUNCTION F_HORARIOS_CLASE(periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_horarios_clase
+AS
+c_out_horarios_clase PKG_UTEG.cursor_horarios_clase;
+
+BEGIN
+
+OPEN c_out_horarios_clase for
+
+select SSBSECT_SUBJ_CODE||SSBSECT_CRSE_NUMB clave_materia, 
+SCBCRSE_TITLE materia,
+SSBSECT_CRN grupo, 
+SSBSECT_TERM_CODE Ciclo,
+(SELECT SSRMEET_MON_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Lunes,
+(SELECT SSRMEET_TUE_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Martes,
+(SELECT SSRMEET_WED_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Miércoles,
+(SELECT SSRMEET_THU_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Jueves,
+(SELECT SSRMEET_FRI_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Viernes,
+(SELECT SSRMEET_SAT_DAY FROM SSRMEET WHERE 1=1 AND SSRMEET_TERM_CODE = periodo and SSRMEET_CRN = crn)Sábado,
+SSRMEET_ROOM_CODE salon,
+STVBLDG_DESC edificio , 
+SLBRDEF_DESC ubicación,
+to_char(to_date(SSRMEET_BEGIN_TIME, 'hh24mi'),'hh24:mi')h_inicio,
+to_char(to_date(SSRMEET_END_TIME,'hh24mi'),'hh24:mi') h_termino
+from ssbsect, scbcrse, ssrmeet, stvbldg, slbrdef
+where 1=1
+and scbcrse_subj_code=ssbsect_subj_code and scbcrse_crse_numb=ssbsect_crse_numb
+and ssbsect_term_code = ssrmeet_term_code
+and ssbsect_crn=ssrmeet_crn
+and ssrmeet_room_code = slbrdef_room_number
+and ssrmeet_bldg_code = slbrdef_bldg_code
+and stvbldg_code = slbrdef_bldg_code
+and ssbsect_term_code = periodo
+and ssbsect_crn = crn
+order by GRUPO;
+
+RETURN(c_out_horarios_clase);
+
+END F_HORARIOS_CLASE;
+--últimos Cambios 
+
 END pkg_UTEG;
+
