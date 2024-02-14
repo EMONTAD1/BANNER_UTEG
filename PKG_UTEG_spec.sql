@@ -320,7 +320,7 @@ TYPE CURSOR_LISTA_EXT IS REF CURSOR
 RETURN c_out_lista_ext%ROWTYPE;
 
 
-FUNCTION F_HORARIOS_CLASE(periodo varchar2, crn varchar2) RETURN PKG_UTEG.cursor_horarios_clase;
+FUNCTION F_HORARIOS_CLASE(periodo varchar2, iden varchar2) RETURN PKG_UTEG.cursor_horarios_clase;
 CURSOR c_out__horarios_clase IS
 SELECT 'clave_materia',
 'materia',
@@ -331,7 +331,12 @@ SELECT 'clave_materia',
 'Miércoles',
 'Jueves',
 'Viernes',
-'Sábado'
+'Sábado',
+'h_inicio',
+'h_fin',
+'Salón',
+'Edificio',
+'Ubicación'
 FROM DUAL
 WHERE 1=1;
 
